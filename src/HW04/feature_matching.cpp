@@ -21,28 +21,27 @@ int checkHomography(const std::vector<cv::Point2f>& pts1, const std::vector<cv::
 	if (pts1.size() != 4 || pts2.size() != 4) return -1;
 	int J_p[4], J_q[4];
 	for (int i = 0; i < 4; i++){
-		J_p[i] = ((pts1[i % 4].x - pts1[(i + 1) % 4].x) * (pts1[(i + 2) % 4].y - pts1[(i + 1) % 4].y) - (pts1[i % 4].y - pts1[(i + 1) % 4].y) * (pts1[(i + 2) % 4].x - pts1[(i + 1) % 4].x));
-		J_q[i] = ((pts2[i % 4].x - pts2[(i + 1) % 4].x) * (pts2[(i + 2) % 4].y - pts2[(i + 1) % 4].y) - (pts2[i % 4].y - pts2[(i + 1) % 4].y) * (pts2[(i + 2) % 4].x - pts2[(i + 1) % 4].x));
+		J_p[i] = ((pts1[i % 4].x - pts1[(i + 1) % 4].x) * (pts1[(i + 2) % 4].y - pts1[(i + 1) % 4].y)
+			- (pts1[i % 4].y - pts1[(i + 1) % 4].y) * (pts1[(i + 2) % 4].x - pts1[(i + 1) % 4].x));
+		J_q[i] = ((pts2[i % 4].x - pts2[(i + 1) % 4].x) * (pts2[(i + 2) % 4].y - pts2[(i + 1) % 4].y)
+			- (pts2[i % 4].y - pts2[(i + 1) % 4].y) * (pts2[(i + 2) % 4].x - pts2[(i + 1) % 4].x));
 	}
-
-	/*
-	cout << J_p[0] * J_q[0] << endl;
-	cout << J_p[1] * J_q[1] << endl;
-	cout << J_p[2] * J_q[2] << endl;
-	cout << J_p[3] * J_q[3] << endl;
-	*/
 
 	if (J_p[0] * J_q[0] > 0 && J_p[1] * J_q[1] > 0 && J_p[2] * J_q[2] > 0 && J_p[3] * J_q[3] > 0)
 		return NORMAL;
-	if (J_p[0] * J_q[0] < 0 && J_p[1] * J_q[1] > 0 && J_p[2] * J_q[2] > 0 && J_p[3] * J_q[3] > 0)
+	else if (J_p[0] * J_q[0] < 0 && J_p[1] * J_q[1] > 0 && J_p[2] * J_q[2] > 0 && J_p[3] * J_q[3] > 0)
 		return CONCAVE;
-	if (J_p[0] * J_q[0] < 0 && J_p[1] * J_q[1] < 0 && J_p[2] * J_q[2] > 0 && J_p[3] * J_q[3] < 0)
+	else if (J_p[0] * J_q[0] < 0 && J_p[1] * J_q[1] < 0 && J_p[2] * J_q[2] > 0 && J_p[3] * J_q[3] < 0)
 		return CONCAVE_REFLECTION;
-	if (J_p[0] * J_q[0] > 0 && J_p[1] * J_q[1] < 0 && J_p[2] * J_q[2] < 0 && J_p[3] * J_q[3] > 0)
+	else if (J_p[0] * J_q[0] > 0 && J_p[1] * J_q[1] < 0 && J_p[2] * J_q[2] < 0 && J_p[3] * J_q[3] > 0)
 		return TWIST;
-	if (J_p[0] * J_q[0] > 0 && J_p[1] * J_q[1] > 0 && J_p[2] * J_q[2] < 0 && J_p[3] * J_q[3] < 0)
+	else if (J_p[0] * J_q[0] > 0 && J_p[1] * J_q[1] > 0 && J_p[2] * J_q[2] < 0 && J_p[3] * J_q[3] < 0)
 		return TWIST_REFLECTION;
-	if (J_p[0] * J_q[0] < 0 && J_p[1] * J_q[1] < 0 && J_p[2] * J_q[2] < 0 && J_p[3] * J_q[3] < 0)
+	else if (J_p[0] * J_q[0] < 0 && J_p[1] * J_q[1] > 0 && J_p[2] * J_q[2] > 0 && J_p[3] * J_q[3] < 0)
+		return TWIST_REFLECTION;
+	else if (J_p[0] * J_q[0] < 0 && J_p[1] * J_q[1] < 0 && J_p[2] * J_q[2] > 0 && J_p[3] * J_q[3] > 0)
+		return TWIST_REFLECTION;
+	else if (J_p[0] * J_q[0] < 0 && J_p[1] * J_q[1] < 0 && J_p[2] * J_q[2] < 0 && J_p[3] * J_q[3] < 0)
 		return REFLECTION;
 }
 

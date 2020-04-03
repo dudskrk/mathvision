@@ -148,13 +148,6 @@ int PolygonDemo::classifyHomography(const std::vector<cv::Point>& pts1, const st
 			- (pts2[i % 4].y - pts2[(i + 1) % 4].y) * (pts2[(i + 2) % 4].x - pts2[(i + 1) % 4].x));
 	}
 
-	
-	cout << J_p[0] * J_q[0] << endl;
-	cout << J_p[1] * J_q[1] << endl;
-	cout << J_p[2] * J_q[2] << endl;
-	cout << J_p[3] * J_q[3] << endl;
-	
-
 	if (J_p[0] * J_q[0] > 0 && J_p[1] * J_q[1] > 0 && J_p[2] * J_q[2] > 0 && J_p[3] * J_q[3] > 0)
 		return NORMAL;
 	else if (J_p[0] * J_q[0] < 0 && J_p[1] * J_q[1] > 0 && J_p[2] * J_q[2] > 0 && J_p[3] * J_q[3] > 0)
