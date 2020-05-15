@@ -8,6 +8,7 @@ using namespace cv;
 PolygonDemo::PolygonDemo()
 {
     m_data_ready = false;
+	wheel_flag = 0;
 }
 
 PolygonDemo::~PolygonDemo()
@@ -390,6 +391,49 @@ void PolygonDemo::handleMouseEvent(int evt, int x, int y, int flags)
     }
     else if (evt == CV_EVENT_MBUTTONDOWN)
     {
+		m_data_pts.clear();
+		m_test_pts.clear();
+		m_data_ready = false;
+		refreshWindow();
+		if (wheel_flag % 4 == 0){      // y=n
+			m_data_pts.push_back(Point(100, 100));
+			m_data_pts.push_back(Point(200, 100));
+			m_data_pts.push_back(Point(300, 100));
+			m_data_pts.push_back(Point(400, 100));
+			m_data_pts.push_back(Point(500, 100));
+		}
+		if (wheel_flag % 4 == 1){      // x=n
+			m_data_pts.push_back(Point(300, 100));
+			m_data_pts.push_back(Point(300, 150));
+			m_data_pts.push_back(Point(300, 200));
+			m_data_pts.push_back(Point(300, 250));
+			m_data_pts.push_back(Point(300, 300));
+		}
+		if (wheel_flag % 4 == 2){      // normal case
+			m_data_pts.push_back(Point(100, 100));
+			m_data_pts.push_back(Point(200, 100));
+			m_data_pts.push_back(Point(300, 100));
+			m_data_pts.push_back(Point(400, 100));
+			m_data_pts.push_back(Point(500, 100));
+			m_data_pts.push_back(Point(100, 300));
+			m_data_pts.push_back(Point(200, 300));
+			m_data_pts.push_back(Point(300, 300));
+			m_data_pts.push_back(Point(400, 300));
+			m_data_pts.push_back(Point(500, 300));
+		}
+		if (wheel_flag % 4 == 3){      // normal case
+			m_data_pts.push_back(Point(300, 50));
+			m_data_pts.push_back(Point(300, 150));
+			m_data_pts.push_back(Point(300, 250));
+			m_data_pts.push_back(Point(300, 350));
+			m_data_pts.push_back(Point(500, 50));
+			m_data_pts.push_back(Point(500, 150));
+			m_data_pts.push_back(Point(500, 250));
+			m_data_pts.push_back(Point(500, 350));
+		}
+		wheel_flag++;
+		m_data_ready = true;
+		refreshWindow();
     }
     else if (evt == CV_EVENT_MBUTTONUP)
     {
